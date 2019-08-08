@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
  import { Router } from '@angular/router';
+import{HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -10,28 +11,20 @@ export class LoginComponent implements OnInit {
 	
 	firstName = "";
 	password = "";
-   constructor(private router: Router){}
+   constructor(private router: Router,private http:HttpClient){}
 
   ngOnInit() {
   }
   nav()
   {
-    if (this.firstName == "user1" && this.password == "123")
+      this.http.get("/api/auth").subscribe(res => {     
+    if (res != false)
     {
-      this.router.navigateByUrl('/account');
+    	this.router.navigateByUrl('/account');	
     }
-    else if (this.firstName == "user2" && this.password == "1234")
-    {
-      this.router.navigateByUrl('/account');
-    }
-    else if(this.firstName == "user3" && this.password == "12345")
-    {
-      this.router.navigateByUrl('/account');
-    }
-    else
-    {
-    	alert("Wrong username or password");
-    }
+
+
+    }); 
   	
   }
 }
